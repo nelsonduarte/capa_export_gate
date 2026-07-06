@@ -1,0 +1,38 @@
+// payload.capa
+//
+// Build the export payload from the payroll records. This is where the
+// @secret fields are assembled into the body the approved bureau needs
+// to run payroll: name, national id, IBAN and gross salary all appear in
+// the payload, because the bureau is a legitimate processor of exactly
+// that data under the DPA.
+//
+// Every string built here that interpolates a @secret field is itself
+// @secret: the label flows through interpolation. So the whole payload
+// string carries the @secret label. That is the point. The ONLY way this
+// value can leave the program is through the single audited ``declassify``
+// in egress.capa, and the compiler proves there is no other path.
+//
+// This module holds no capabilities and performs no I/O. It is pure
+// string assembly over already-parsed records.
+
+import domain
+
+// One JSON object per record. The four regulated fields are included
+// verbatim (the bureau processes them); employee_no and period are the
+// non-personal join keys. The result is @secret because it interpolates
+// @secret fields.
+fun record_json(r: PayrollRecord) -> String
+    return "{\"employee_no\":\"${r.employee_no}\",\"name\":\"${r.name}\",\"national_id\":\"${r.national_id}\",\"iban\":\"${r.iban}\",\"gross_salary_cents\":${r.gross_salary_cents},\"period\":\"${r.period}\"}"
+
+// Assemble the full batch payload: a JSON array of record objects. The
+// return value carries the @secret label of the fields it embeds.
+pub fun build_payload(records: List<PayrollRecord>) -> String
+    var body = "["
+    var first = true
+    for r in records
+        if first
+            first = false
+        else
+            body = body + ","
+        body = body + record_json(r)
+    return body + "]"

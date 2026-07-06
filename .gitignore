@@ -1,0 +1,18 @@
+# Python bytecode (if anyone runs the transpiled code directly)
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Local probes / scratch
+_*.capa
+
+# NOTE: sbom/ is committed as the sample SBOM family the README
+# references. Regenerate it with ./generate.sh.

@@ -1,0 +1,69 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "config.capa",
+      "digest": {
+        "sha256": "3426578c32d6f63ffb179304dfb39ce75433e7dce66c076b6a866acd85c2c4dd"
+      }
+    },
+    {
+      "name": "connector.capa",
+      "digest": {
+        "sha256": "0f1c9f4b070f33e9c57d0e8a64ea495b17bba5a5c71e3e6a07ea0bceb77b8fcf"
+      }
+    },
+    {
+      "name": "domain.capa",
+      "digest": {
+        "sha256": "c08e16f4c2ff9feeb7082009be3e08370d099eab511cf1b036039181a89b5207"
+      }
+    },
+    {
+      "name": "egress.capa",
+      "digest": {
+        "sha256": "4f1359dde7863a6a94d95fba68475f85421b15a7d42db88ef12156856e35013f"
+      }
+    },
+    {
+      "name": "ingest.capa",
+      "digest": {
+        "sha256": "f592725e0d976fcfffb7a4581d53269e4ebb35657bc51664dca301db1b980d3d"
+      }
+    },
+    {
+      "name": "payload.capa",
+      "digest": {
+        "sha256": "ccea86b3d0b7b68a2c9bdaa24e7eee0a22bcc5ab46ede2072d1be718b2cb8375"
+      }
+    }
+  ],
+  "predicateType": "https://slsa.dev/provenance/v1",
+  "predicate": {
+    "buildDefinition": {
+      "buildType": "https://capa-language.com/build/transpile-to-python/v1",
+      "externalParameters": {
+        "source": "connector.capa"
+      },
+      "internalParameters": {
+        "capaVersion": "1.15.1",
+        "target": "python>=3.10"
+      },
+      "resolvedDependencies": []
+    },
+    "runDetails": {
+      "builder": {
+        "id": "https://capa-language.com/cli",
+        "version": {
+          "capa": "1.15.1"
+        }
+      },
+      "metadata": {
+        "invocationId": "52236c78-db8c-57e5-b5fc-1ff68fc38685",
+        "startedOn": "2026-01-01T00:00:00Z",
+        "finishedOn": "2026-01-01T00:00:00Z"
+      },
+      "byproducts": []
+    }
+  }
+}

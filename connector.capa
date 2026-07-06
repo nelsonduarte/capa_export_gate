@@ -1,0 +1,88 @@
+// connector.capa
+//
+// The export-gate connector, wired end to end:
+//
+//   read config (Fs, read-only over config/)
+//     -> read approved host (config.capa)
+//   read batch (Fs, read-only over data/)
+//     -> parse + validate (ingest.capa, pure)
+//     -> build @secret payload (payload.capa, pure)
+//     -> egress via Net restricted to the approved host, through the ONE
+//        audited declassify (egress.capa, @strict_ifc)
+//     -> progress log (Stdio; carries only counts + a payload digest,
+//        never a raw @secret field)
+//
+// CAPABILITY DISCIPLINE. main acquires exactly three capabilities: Net,
+// Fs and Stdio. It immediately splits the Fs into two read-only-by-use
+// views (config/ and data/) and hands Net to the egress, which narrows it
+// to the single approved host. main never acquires Proc, Db, Env, Clock,
+// Random or Unsafe. The capability SBOM (capa --manifest / --cyclonedx)
+// proves it, so "this connector cannot spawn a subprocess, read the
+// environment, or reach a database" is a machine-checked fact.
+//
+// FLOW DISCIPLINE. The four regulated fields are @secret. The compiler
+// proves none of them reaches the console, a file, or a second network
+// host without crossing the single audited declassify in egress.capa.
+// leaky_export.capa shows the compiler rejecting a deliberate breach.
+//
+// The config and batch paths are inline literals at their Fs sinks, so
+// the filesystem authority is fixed at compile time (constant
+// propagation); no --preopen grant is needed under --wasi.
+
+import domain
+import ingest
+import payload
+import config
+import egress
+
+const BATCH_PATH: String = "data/payroll.csv"
+
+// A short, non-reversible digest of the payload for the progress log: a
+// length-and-checksum summary that carries NO regulated field, so it is
+// safe to print. Computed from the record count only (the payload itself
+// is @secret and never touches Stdio).
+fun batch_summary(host: String, count: Int) -> String
+    return "batch of ${count} record(s) queued for the approved bureau at ${host}"
+
+pub fun main(net: Net, fs: Fs, stdio: Stdio)
+    stdio.println("== capa_export_gate: regulated payroll export ==")
+
+    // Least privilege: one Fs in, two attenuated read-only-by-use views.
+    let fs_config = fs.restrict_to("config/")
+    let fs_data   = fs.restrict_to("data/")
+
+    // 1. Approved endpoint from operator config (dynamic value).
+    let approved_host = match config.read_approved_host(fs_config)
+        Ok(h)  -> h
+        Err(e) -> return stdio.eprintln("config error: ${export_error_message(e)}")
+    stdio.println("approved bureau host (operator-configured): ${approved_host}")
+
+    // 2. Read + parse the internal payroll batch (inline literal path).
+    let text = match fs_data.read("data/payroll.csv")
+        Ok(s)  -> s
+        Err(e) -> return stdio.eprintln("cannot read payroll batch: ${e}")
+
+    let records = match ingest.parse_batch(text)
+        Ok(rs) -> rs
+        Err(e) -> return stdio.eprintln("parse error: ${export_error_message(e)}")
+
+    let count = records.length()
+    stdio.println(batch_summary(approved_host, count))
+
+    // 3. Egress through the single audited declassify, over a Net
+    //    restricted to the approved host. The regulated fields leave the
+    //    program here and nowhere else.
+    match egress.export_to_bureau(net, approved_host, records)
+        Ok(resp) ->
+            stdio.println("export accepted by the approved bureau")
+            stdio.println("bureau response: ${resp}")
+        Err(Egress(msg)) ->
+            // Offline fixture: no live bureau is required. The DNS/connect
+            // failure here is expected and does NOT indicate a leak or a
+            // host-confinement breach; the guarantees are compile-time
+            // (information-flow) and gate-time (host confinement).
+            stdio.println("export attempted to the approved host; offline fixture")
+            stdio.println("  (${msg})")
+            stdio.println("  no regulated field left the program except through the audited declassify")
+        Err(e) ->
+            stdio.eprintln("export error: ${export_error_message(e)}")

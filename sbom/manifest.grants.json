@@ -1,0 +1,1742 @@
+{
+  "capa_version": "1.15.1",
+  "schema_version": 1,
+  "filename": "connector.capa",
+  "user_defined_capabilities": [],
+  "typestates": [],
+  "functions": [
+    {
+      "name": "export_error_message",
+      "source_name": "export_error_message",
+      "container": null,
+      "source_container": null,
+      "source_module_index": null,
+      "pos": "domain.capa:62:5",
+      "is_pub": true,
+      "doc": null,
+      "params": [
+        {
+          "name": "e",
+          "type": "ExportError",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "String",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [],
+      "declassifications": []
+    },
+    {
+      "name": "_capa_m2__required_columns",
+      "source_name": "required_columns",
+      "container": null,
+      "source_container": null,
+      "source_module_index": 2,
+      "pos": "ingest.capa:24:1",
+      "is_pub": false,
+      "doc": null,
+      "params": [],
+      "return_type": "List<String>",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [],
+      "declassifications": []
+    },
+    {
+      "name": "_capa_m2__split_line",
+      "source_name": "split_line",
+      "container": null,
+      "source_container": null,
+      "source_module_index": 2,
+      "pos": "ingest.capa:30:1",
+      "is_pub": false,
+      "doc": null,
+      "params": [
+        {
+          "name": "line",
+          "type": "String",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "List<String>",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [
+        {
+          "kind": "method",
+          "callee": "line.length",
+          "pos": "34:15",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "method",
+          "callee": "line.substring",
+          "pos": "35:17",
+          "args": [
+            "i",
+            "i + 1"
+          ],
+          "args_flow": [
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "cells.push",
+          "pos": "37:13",
+          "args": [
+            "current"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "cells.push",
+          "pos": "42:5",
+          "args": [
+            "current"
+          ],
+          "args_flow": [
+            null
+          ]
+        }
+      ],
+      "declassifications": []
+    },
+    {
+      "name": "_capa_m2__data_lines",
+      "source_name": "data_lines",
+      "container": null,
+      "source_container": null,
+      "source_module_index": 2,
+      "pos": "ingest.capa:46:1",
+      "is_pub": false,
+      "doc": null,
+      "params": [
+        {
+          "name": "text",
+          "type": "String",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "List<String>",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [
+        {
+          "kind": "method",
+          "callee": "text.split",
+          "pos": "48:16",
+          "args": [
+            "\"\\n\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "raw.trim",
+          "pos": "49:20",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "method",
+          "callee": "line.is_empty",
+          "pos": "50:16",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "method",
+          "callee": "out.push",
+          "pos": "51:13",
+          "args": [
+            "line"
+          ],
+          "args_flow": [
+            null
+          ]
+        }
+      ],
+      "declassifications": []
+    },
+    {
+      "name": "_capa_m2__digit_value",
+      "source_name": "digit_value",
+      "container": null,
+      "source_container": null,
+      "source_module_index": 2,
+      "pos": "ingest.capa:54:1",
+      "is_pub": false,
+      "doc": null,
+      "params": [
+        {
+          "name": "c",
+          "type": "String",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "Int",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [],
+      "declassifications": []
+    },
+    {
+      "name": "_capa_m2__parse_salary",
+      "source_name": "parse_salary",
+      "container": null,
+      "source_container": null,
+      "source_module_index": 2,
+      "pos": "ingest.capa:80:1",
+      "is_pub": false,
+      "doc": null,
+      "params": [
+        {
+          "name": "s",
+          "type": "String",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "Option<Int>",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [
+        {
+          "kind": "method",
+          "callee": "s.trim",
+          "pos": "81:13",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "method",
+          "callee": "t.is_empty",
+          "pos": "82:8",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "method",
+          "callee": "t.length",
+          "pos": "86:15",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__digit_value",
+          "pos": "87:17",
+          "args": [
+            "t.substring(i, i + 1)"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "t.substring",
+          "pos": "87:29",
+          "args": [
+            "i",
+            "i + 1"
+          ],
+          "args_flow": [
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Some",
+          "pos": "92:12",
+          "args": [
+            "acc"
+          ],
+          "args_flow": [
+            null
+          ]
+        }
+      ],
+      "declassifications": []
+    },
+    {
+      "name": "_capa_m2__cell",
+      "source_name": "cell",
+      "container": null,
+      "source_container": null,
+      "source_module_index": 2,
+      "pos": "ingest.capa:96:1",
+      "is_pub": false,
+      "doc": null,
+      "params": [
+        {
+          "name": "cells",
+          "type": "List<String>",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        },
+        {
+          "name": "idx",
+          "type": "Int",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        },
+        {
+          "name": "row",
+          "type": "Int",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "Result<String, ExportError>",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [
+        {
+          "kind": "method",
+          "callee": "cells.get",
+          "pos": "97:18",
+          "args": [
+            "idx"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Ok",
+          "pos": "98:20",
+          "args": [
+            "v.trim()"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "v.trim",
+          "pos": "98:23",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "fn",
+          "callee": "Err",
+          "pos": "99:20",
+          "args": [
+            "MalformedRow(row)"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "MalformedRow",
+          "pos": "99:24",
+          "args": [
+            "row"
+          ],
+          "args_flow": [
+            null
+          ]
+        }
+      ],
+      "declassifications": []
+    },
+    {
+      "name": "_capa_m2__build_record",
+      "source_name": "build_record",
+      "container": null,
+      "source_container": null,
+      "source_module_index": 2,
+      "pos": "ingest.capa:104:1",
+      "is_pub": false,
+      "doc": null,
+      "params": [
+        {
+          "name": "cells",
+          "type": "List<String>",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        },
+        {
+          "name": "row",
+          "type": "Int",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "Result<PayrollRecord, ExportError>",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__cell",
+          "pos": "105:23",
+          "args": [
+            "cells",
+            "0",
+            "row"
+          ],
+          "args_flow": [
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__cell",
+          "pos": "106:23",
+          "args": [
+            "cells",
+            "1",
+            "row"
+          ],
+          "args_flow": [
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__cell",
+          "pos": "107:23",
+          "args": [
+            "cells",
+            "2",
+            "row"
+          ],
+          "args_flow": [
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__cell",
+          "pos": "108:23",
+          "args": [
+            "cells",
+            "3",
+            "row"
+          ],
+          "args_flow": [
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__cell",
+          "pos": "109:23",
+          "args": [
+            "cells",
+            "4",
+            "row"
+          ],
+          "args_flow": [
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__cell",
+          "pos": "110:23",
+          "args": [
+            "cells",
+            "5",
+            "row"
+          ],
+          "args_flow": [
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__parse_salary",
+          "pos": "111:24",
+          "args": [
+            "salary_raw"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Err",
+          "pos": "113:27",
+          "args": [
+            "BadSalary(row)"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "BadSalary",
+          "pos": "113:31",
+          "args": [
+            "row"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Ok",
+          "pos": "114:12",
+          "args": [
+            "PayrollRecord { employee_no: employee_no, name: name, national_id: national_i..."
+          ],
+          "args_flow": [
+            null
+          ]
+        }
+      ],
+      "declassifications": []
+    },
+    {
+      "name": "parse_batch",
+      "source_name": "parse_batch",
+      "container": null,
+      "source_container": null,
+      "source_module_index": null,
+      "pos": "ingest.capa:125:5",
+      "is_pub": true,
+      "doc": null,
+      "params": [
+        {
+          "name": "text",
+          "type": "String",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "Result<List<PayrollRecord>, ExportError>",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__data_lines",
+          "pos": "126:17",
+          "args": [
+            "text"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "lines.length",
+          "pos": "127:8",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "fn",
+          "callee": "Err",
+          "pos": "128:16",
+          "args": [
+            "EmptyBatch"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__split_line",
+          "pos": "129:18",
+          "args": [
+            "lines.get(0).unwrap_or(\"\")"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "lines.get(0).unwrap_or",
+          "pos": "129:29",
+          "args": [
+            "\"\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "lines.get",
+          "pos": "129:29",
+          "args": [
+            "0"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__required_columns",
+          "pos": "130:16",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__header_has",
+          "pos": "131:16",
+          "args": [
+            "header",
+            "col"
+          ],
+          "args_flow": [
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Err",
+          "pos": "132:20",
+          "args": [
+            "MissingColumn(col)"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "MissingColumn",
+          "pos": "132:24",
+          "args": [
+            "col"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "lines.length",
+          "pos": "133:8",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "fn",
+          "callee": "Err",
+          "pos": "134:16",
+          "args": [
+            "EmptyBatch"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "lines.length",
+          "pos": "137:15",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__split_line",
+          "pos": "138:21",
+          "args": [
+            "lines.get(i).unwrap_or(\"\")"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "lines.get(i).unwrap_or",
+          "pos": "138:32",
+          "args": [
+            "\"\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "lines.get",
+          "pos": "138:32",
+          "args": [
+            "i"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "_capa_m2__build_record",
+          "pos": "139:17",
+          "args": [
+            "cells",
+            "i"
+          ],
+          "args_flow": [
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "records.push",
+          "pos": "140:9",
+          "args": [
+            "r"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Ok",
+          "pos": "142:12",
+          "args": [
+            "records"
+          ],
+          "args_flow": [
+            null
+          ]
+        }
+      ],
+      "declassifications": []
+    },
+    {
+      "name": "_capa_m2__header_has",
+      "source_name": "header_has",
+      "container": null,
+      "source_container": null,
+      "source_module_index": 2,
+      "pos": "ingest.capa:144:1",
+      "is_pub": false,
+      "doc": null,
+      "params": [
+        {
+          "name": "header",
+          "type": "List<String>",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        },
+        {
+          "name": "col",
+          "type": "String",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "Bool",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [
+        {
+          "kind": "method",
+          "callee": "h.trim",
+          "pos": "146:12",
+          "args": [],
+          "args_flow": []
+        }
+      ],
+      "declassifications": []
+    },
+    {
+      "name": "_capa_m3__record_json",
+      "source_name": "record_json",
+      "container": null,
+      "source_container": null,
+      "source_module_index": 3,
+      "pos": "payload.capa:24:1",
+      "is_pub": false,
+      "doc": null,
+      "params": [
+        {
+          "name": "r",
+          "type": "PayrollRecord",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "String",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [],
+      "declassifications": []
+    },
+    {
+      "name": "build_payload",
+      "source_name": "build_payload",
+      "container": null,
+      "source_container": null,
+      "source_module_index": null,
+      "pos": "payload.capa:29:5",
+      "is_pub": true,
+      "doc": null,
+      "params": [
+        {
+          "name": "records",
+          "type": "List<PayrollRecord>",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "String",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [
+        {
+          "kind": "fn",
+          "callee": "_capa_m3__record_json",
+          "pos": "37:23",
+          "args": [
+            "r"
+          ],
+          "args_flow": [
+            null
+          ]
+        }
+      ],
+      "declassifications": []
+    },
+    {
+      "name": "read_approved_host",
+      "source_name": "read_approved_host",
+      "container": null,
+      "source_container": null,
+      "source_module_index": null,
+      "pos": "config.capa:29:5",
+      "is_pub": true,
+      "doc": null,
+      "params": [
+        {
+          "name": "fs_config",
+          "type": "Fs",
+          "consuming": false,
+          "is_capability": true,
+          "is_linear": false
+        }
+      ],
+      "return_type": "Result<String, ExportError>",
+      "declared_capabilities": [
+        "Fs"
+      ],
+      "transitively_reachable_capabilities": [
+        "Fs"
+      ],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [
+        {
+          "kind": "method",
+          "callee": "fs_config.read",
+          "pos": "30:21",
+          "args": [
+            "\"config/bureau_host.txt\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Err",
+          "pos": "32:26",
+          "args": [
+            "Io(\"${...}\")"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Io",
+          "pos": "32:30",
+          "args": [
+            "\"${...}\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "raw.trim",
+          "pos": "33:16",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "method",
+          "callee": "host.is_empty",
+          "pos": "34:8",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "fn",
+          "callee": "Err",
+          "pos": "35:16",
+          "args": [
+            "NoEndpoint"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Ok",
+          "pos": "36:12",
+          "args": [
+            "host"
+          ],
+          "args_flow": [
+            null
+          ]
+        }
+      ],
+      "declassifications": []
+    },
+    {
+      "name": "export_to_bureau",
+      "source_name": "export_to_bureau",
+      "container": null,
+      "source_container": null,
+      "source_module_index": null,
+      "pos": "egress.capa:37:1",
+      "is_pub": true,
+      "doc": null,
+      "params": [
+        {
+          "name": "net",
+          "type": "Net",
+          "consuming": false,
+          "is_capability": true,
+          "is_linear": false
+        },
+        {
+          "name": "approved_host",
+          "type": "String",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        },
+        {
+          "name": "records",
+          "type": "List<PayrollRecord>",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "Result<String, ExportError>",
+      "declared_capabilities": [
+        "Net"
+      ],
+      "transitively_reachable_capabilities": [
+        "Net"
+      ],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [
+        {
+          "name": "strict_ifc",
+          "args": {}
+        }
+      ],
+      "calls": [
+        {
+          "kind": "method",
+          "callee": "net.restrict_to",
+          "pos": "41:18",
+          "args": [
+            "approved_host"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "build_payload",
+          "pos": "50:26",
+          "args": [
+            "records"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "declassify",
+          "pos": "56:30",
+          "args": [
+            "secret_payload",
+            "\"DPA-2026-0417, Art. 28 GDPR processor agreement with the approved payroll bu..."
+          ],
+          "args_flow": [
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "bureau.post",
+          "pos": "62:18",
+          "args": [
+            "url",
+            "authorised_payload"
+          ],
+          "args_flow": [
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Ok",
+          "pos": "63:21",
+          "args": [
+            "resp"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Err",
+          "pos": "64:21",
+          "args": [
+            "Egress(\"${...}\")"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "Egress",
+          "pos": "64:25",
+          "args": [
+            "\"${...}\""
+          ],
+          "args_flow": [
+            null
+          ]
+        }
+      ],
+      "declassifications": [
+        {
+          "reason": "DPA-2026-0417, Art. 28 GDPR processor agreement with the approved payroll bureau: the regulated fields (name, national id, IBAN, gross salary) are disclosed to the contracted processor for the sole purpose of running payroll, over the operator-approved endpoint and no other",
+          "value": "secret_payload",
+          "pos": "56:30"
+        }
+      ]
+    },
+    {
+      "name": "batch_summary",
+      "source_name": "batch_summary",
+      "container": null,
+      "source_container": null,
+      "source_module_index": null,
+      "pos": "connector.capa:44:1",
+      "is_pub": false,
+      "doc": null,
+      "params": [
+        {
+          "name": "host",
+          "type": "String",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        },
+        {
+          "name": "count",
+          "type": "Int",
+          "consuming": false,
+          "is_capability": false,
+          "is_linear": false
+        }
+      ],
+      "return_type": "String",
+      "declared_capabilities": [],
+      "transitively_reachable_capabilities": [],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Fs",
+        "Net",
+        "Proc",
+        "Random",
+        "Stdio",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [],
+      "declassifications": []
+    },
+    {
+      "name": "main",
+      "source_name": "main",
+      "container": null,
+      "source_container": null,
+      "source_module_index": null,
+      "pos": "connector.capa:47:5",
+      "is_pub": true,
+      "doc": null,
+      "params": [
+        {
+          "name": "net",
+          "type": "Net",
+          "consuming": false,
+          "is_capability": true,
+          "is_linear": false
+        },
+        {
+          "name": "fs",
+          "type": "Fs",
+          "consuming": false,
+          "is_capability": true,
+          "is_linear": false
+        },
+        {
+          "name": "stdio",
+          "type": "Stdio",
+          "consuming": false,
+          "is_capability": true,
+          "is_linear": false
+        }
+      ],
+      "return_type": "()",
+      "declared_capabilities": [
+        "Net",
+        "Fs",
+        "Stdio"
+      ],
+      "transitively_reachable_capabilities": [
+        "Fs",
+        "Net",
+        "Stdio"
+      ],
+      "provably_excluded_capabilities": [
+        "Clock",
+        "Db",
+        "Env",
+        "Proc",
+        "Random",
+        "Unsafe"
+      ],
+      "linear_obligations": {
+        "consumes": [],
+        "produces_linear": false
+      },
+      "has_unsafe": false,
+      "constant_time": false,
+      "attributes": [],
+      "calls": [
+        {
+          "kind": "method",
+          "callee": "stdio.println",
+          "pos": "48:5",
+          "args": [
+            "\"== capa_export_gate: regulated payroll export ==\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "fs.restrict_to",
+          "pos": "51:21",
+          "args": [
+            "\"config/\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "fs.restrict_to",
+          "pos": "52:21",
+          "args": [
+            "\"data/\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "read_approved_host",
+          "pos": "55:31",
+          "args": [
+            "fs_config"
+          ],
+          "args_flow": [
+            {
+              "name": "fs_config",
+              "attenuations": [
+                {
+                  "method": "restrict_to",
+                  "args": [
+                    "\"config/\""
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "stdio.eprintln",
+          "pos": "57:26",
+          "args": [
+            "\"config error: ${...}\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "export_error_message",
+          "pos": "57:58",
+          "args": [
+            "e"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "stdio.println",
+          "pos": "58:5",
+          "args": [
+            "\"approved bureau host (operator-configured): ${...}\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "fs_data.read",
+          "pos": "61:22",
+          "args": [
+            "\"data/payroll.csv\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "stdio.eprintln",
+          "pos": "63:26",
+          "args": [
+            "\"cannot read payroll batch: ${...}\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "parse_batch",
+          "pos": "65:25",
+          "args": [
+            "text"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "stdio.eprintln",
+          "pos": "67:26",
+          "args": [
+            "\"parse error: ${...}\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "export_error_message",
+          "pos": "67:57",
+          "args": [
+            "e"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "records.length",
+          "pos": "69:17",
+          "args": [],
+          "args_flow": []
+        },
+        {
+          "kind": "method",
+          "callee": "stdio.println",
+          "pos": "70:5",
+          "args": [
+            "batch_summary(approved_host, count)"
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "batch_summary",
+          "pos": "70:19",
+          "args": [
+            "approved_host",
+            "count"
+          ],
+          "args_flow": [
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "export_to_bureau",
+          "pos": "75:11",
+          "args": [
+            "net",
+            "approved_host",
+            "records"
+          ],
+          "args_flow": [
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "stdio.println",
+          "pos": "77:13",
+          "args": [
+            "\"export accepted by the approved bureau\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "stdio.println",
+          "pos": "78:13",
+          "args": [
+            "\"bureau response: ${...}\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "stdio.println",
+          "pos": "84:13",
+          "args": [
+            "\"export attempted to the approved host; offline fixture\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "stdio.println",
+          "pos": "85:13",
+          "args": [
+            "\"  (${...})\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "stdio.println",
+          "pos": "86:13",
+          "args": [
+            "\"  no regulated field left the program except through the audited declassify\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "method",
+          "callee": "stdio.eprintln",
+          "pos": "88:13",
+          "args": [
+            "\"export error: ${...}\""
+          ],
+          "args_flow": [
+            null
+          ]
+        },
+        {
+          "kind": "fn",
+          "callee": "export_error_message",
+          "pos": "88:45",
+          "args": [
+            "e"
+          ],
+          "args_flow": [
+            null
+          ]
+        }
+      ],
+      "declassifications": []
+    }
+  ],
+  "operator_declared_grants": {
+    "trust_level": "operator-declared",
+    "note": "Authority declared by the operator at build/run time (e.g. --preopen, --allow-host). DISTINCT from the compiler-derived, program-proven capability surface; the compiler could not derive these grants.",
+    "preopens": [],
+    "allow_hosts": [
+      {
+        "kind": "net",
+        "host": "bureau.example.com"
+      }
+    ]
+  },
+  "compiler_derived_path_arg_surface": {
+    "trust_level": "compiler-derived",
+    "note": "argv (env.args()) arguments the compiler PROVED reach an Fs / Net / Env sink, and whether read or write. A sound over-approximation (no reaching argument omitted; arg_index '*' when the concrete index is not statically determinate). Closures are covered SOUND BY CONSTRUCTION: a closure whose parameter reaches a sink is reported at '*' UNLESS the compiler proves it is applied only locally to non-argv values -- so a closure that escapes its frame (returned, passed to a helper, stored in an aggregate, or reached through a match/if arm or a name bound to one) fails closed, with no per-shape enumeration. Scope is EXHAUSTIVELY covered: the statement traversal descends into EVERY sub-scope that holds sub-statements -- if/while/for statement blocks, match-arm blocks, and lambda bodies, at any nesting depth -- so a binding or sink in any sub-block (including a match-arm block) is never skipped (pinned by a meta-test over the AST node inventory). RESIDUAL (the one honest gap, VALUE-FLOW only): a closure carried by a value the AST-level pass cannot statically tie back to a lambda -- re-extracted from a runtime container by key, or threaded through an opaque computed value -- may be under-reported. This does NOT grant authority -- a dynamic Fs/Net path still fail-closes in --wasi without --preopen; it is an auditable fact, distinct from operator_declared_grants.",
+    "arguments": []
+  },
+  "summary": {
+    "total_functions": 16,
+    "functions_with_capabilities": 3,
+    "functions_with_attributes": 1,
+    "functions_crossing_unsafe": 0,
+    "declassification_sites": 1,
+    "protocol_states": 0
+  }
+}

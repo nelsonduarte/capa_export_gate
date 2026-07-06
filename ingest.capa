@@ -1,0 +1,148 @@
+// ingest.capa
+//
+// Parse the internal payroll batch (a small RFC-4180-ish CSV) into
+// validated domain records, threading Result across every fallible step.
+//
+// The parser is INLINE and pure: it takes text the caller already read
+// through a read-only Fs and holds no capabilities of its own. Keeping
+// the reader (Fs) and the parser (pure) apart is deliberate least
+// privilege, and it keeps this demo self-contained (no git dependency to
+// fetch for the gate to run). A verified ``capa_csv`` git dependency, as
+// in capa_dataguard, is the drop-in alternative; it would not widen the
+// capability surface, since capa_csv is pure and capability-free.
+//
+// Reading a CSV cell yields a plain public String. Placing it into a
+// @secret field of PayrollRecord is where the personal data ENTERS the
+// secret domain: from that assignment on, any read of r.name /
+// r.national_id / r.iban / r.gross_salary_cents carries the @secret
+// label, and the compiler tracks it to every sink. The non-personal
+// cells (employee_no, period) go into unlabelled fields and stay public.
+
+import domain
+
+// The columns the export gate requires, in a fixed order.
+fun required_columns() -> List<String>
+    return ["employee_no", "name", "national_id", "iban", "gross_salary_cents", "period"]
+
+// Split a single CSV line on commas. The fixture uses simple unquoted
+// fields (no embedded commas or quotes), which keeps the parser small
+// and total; a quoted-field reader is the capa_csv upgrade path.
+fun split_line(line: String) -> List<String>
+    var cells: List<String> = []
+    var current = ""
+    var i = 0
+    while i < line.length()
+        let c = line.substring(i, i + 1)
+        if c == ","
+            cells.push(current)
+            current = ""
+        else
+            current = current + c
+        i = i + 1
+    cells.push(current)
+    return cells
+
+// Non-empty, non-whitespace lines only (skip blank trailing rows).
+fun data_lines(text: String) -> List<String>
+    var out: List<String> = []
+    for raw in text.split("\n")
+        let line = raw.trim()
+        if not line.is_empty()
+            out.push(line)
+    return out
+
+fun digit_value(c: String) -> Int
+    if c == "0"
+        return 0
+    if c == "1"
+        return 1
+    if c == "2"
+        return 2
+    if c == "3"
+        return 3
+    if c == "4"
+        return 4
+    if c == "5"
+        return 5
+    if c == "6"
+        return 6
+    if c == "7"
+        return 7
+    if c == "8"
+        return 8
+    if c == "9"
+        return 9
+    return -1
+
+// Parse a non-negative base-10 integer of minor currency units. Returns
+// None for any non-numeric input so the caller can raise BadSalary with
+// the offending record index.
+fun parse_salary(s: String) -> Option<Int>
+    let t = s.trim()
+    if t.is_empty()
+        return None
+    var acc = 0
+    var i = 0
+    while i < t.length()
+        let d = digit_value(t.substring(i, i + 1))
+        if d < 0
+            return None
+        acc = acc * 10 + d
+        i = i + 1
+    return Some(acc)
+
+// One cell by column index, mapped to a MalformedRow error when the row
+// is shorter than the header requires.
+fun cell(cells: List<String>, idx: Int, row: Int) -> Result<String, ExportError>
+    return match cells.get(idx)
+        Some(v) -> Ok(v.trim())
+        None    -> Err(MalformedRow(row))
+
+// Turn one data row into a PayrollRecord. The four regulated columns
+// flow into @secret fields; the operational columns stay public. A
+// non-numeric salary is a typed BadSalary error, not a crash.
+fun build_record(cells: List<String>, row: Int) -> Result<PayrollRecord, ExportError>
+    let employee_no = cell(cells, 0, row)?
+    let name        = cell(cells, 1, row)?
+    let national_id = cell(cells, 2, row)?
+    let iban        = cell(cells, 3, row)?
+    let salary_raw  = cell(cells, 4, row)?
+    let period      = cell(cells, 5, row)?
+    let salary = match parse_salary(salary_raw)
+        Some(n) -> n
+        None    -> return Err(BadSalary(row))
+    return Ok(PayrollRecord {
+        employee_no: employee_no,
+        name: name,
+        national_id: national_id,
+        iban: iban,
+        gross_salary_cents: salary,
+        period: period
+    })
+
+// Parse the whole batch. Verifies the header carries every required
+// column up front, then builds one record per data row.
+pub fun parse_batch(text: String) -> Result<List<PayrollRecord>, ExportError>
+    let lines = data_lines(text)
+    if lines.length() == 0
+        return Err(EmptyBatch)
+    let header = split_line(lines.get(0).unwrap_or(""))
+    for col in required_columns()
+        if not header_has(header, col)
+            return Err(MissingColumn(col))
+    if lines.length() == 1
+        return Err(EmptyBatch)
+    var records: List<PayrollRecord> = []
+    var i = 1
+    while i < lines.length()
+        let cells = split_line(lines.get(i).unwrap_or(""))
+        let r = build_record(cells, i)?
+        records.push(r)
+        i = i + 1
+    return Ok(records)
+
+fun header_has(header: List<String>, col: String) -> Bool
+    for h in header
+        if h.trim() == col
+            return true
+    return false

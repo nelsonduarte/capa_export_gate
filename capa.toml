@@ -1,0 +1,33 @@
+# capa_export_gate - package manifest.
+#
+# A connector that exports regulated payroll records from an internal
+# system to an approved external processing bureau (a SaaS), and PROVES,
+# by construction, that the regulated data leaves the program at exactly
+# ONE audited point and that point can reach exactly ONE approved host.
+#
+# The proof is two independent, compiler-enforced layers:
+#
+#   1. FLOW CONFINEMENT (information-flow control). The regulated fields
+#      (name, national id, IBAN, gross salary) are @secret. Under
+#      @strict_ifc on the egress, any @secret value reaching a sink
+#      without an audited declassify is a HARD COMPILE ERROR. The single
+#      declassify names the DPA with the bureau.
+#
+#   2. HOST CONFINEMENT (Net attenuation + WASI grant). The egress holds a
+#      Net restricted to the approved host; under --wasi the approved host
+#      is operator-declared (--allow-host) and is the only host the
+#      component can reach.
+#
+# The capability surface is exactly {Net, Fs, Stdio}. Proc, Db, Env,
+# Clock, Random and Unsafe are provably excluded, and the SBOM proves it.
+#
+# The CSV parsing is inline and pure, so the demo is fully self-contained
+# (no dependency fetch is needed for the gate to run). A verified
+# capa_csv git dependency, as in capa_dataguard, is the drop-in
+# alternative; it is pure and capability-free and would not widen the
+# {Net, Fs, Stdio} surface.
+
+[package]
+name = "capa_export_gate"
+version = "0.1.0"
+capa = ">=1.15.1"

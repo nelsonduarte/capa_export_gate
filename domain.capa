@@ -1,0 +1,70 @@
+// domain.capa
+//
+// The shared data vocabulary for the export gate. Pure data plus small
+// total helpers; zero capabilities, no I/O. Every other module imports
+// this so the security labels stay identical end to end.
+//
+// The whole confinement story starts here, in the type annotations. A
+// payroll record mixes two populations of fields:
+//
+//   * REGULATED PERSONAL DATA (GDPR Art. 4 "personal data", plus the
+//     financial identifiers a payroll export inevitably carries): the
+//     employee's full name, national id (NIF), IBAN and gross salary.
+//     These are marked @secret. From that single annotation the compiler
+//     propagates a confidentiality label through every value derived from
+//     them and proves none of them can reach ANY sink (the console, a log
+//     file, the network) without crossing an audited ``declassify``.
+//
+//   * NON-PERSONAL, OPERATIONAL fields: the batch's pay period and the
+//     opaque employee number the internal system already assigns. These
+//     carry no label and are the only raw material the public progress
+//     log and the batch metadata are built from.
+//
+// That split is the design. The export payload is the ONE place the
+// @secret fields are allowed to travel, and only through the single
+// audited egress in egress.capa, whose ``declassify`` names the data
+// processing agreement (DPA) with the approved bureau.
+
+// =========================================================
+// Payroll record (post-validation, in-memory form)
+// =========================================================
+//
+// Marking a field @secret puts every value read from it into the secret
+// domain (field reads inherit the annotation). name / national_id / iban
+// / gross_salary_cents are the regulated fields; employee_no and period
+// are non-personal operational attributes.
+
+pub type PayrollRecord {
+    employee_no: String,             // non-personal: opaque internal number
+    name: @secret String,            // full name - never in the clear
+    national_id: @secret String,     // NIF / national id - never disclosed
+    iban: @secret String,            // bank account - never disclosed
+    gross_salary_cents: @secret Int, // gross salary (minor units) - never disclosed
+    period: String                   // non-personal: pay period, e.g. 2026-06
+}
+
+// =========================================================
+// Validation / export error channel
+// =========================================================
+//
+// The connector threads Result across every fallible step. A malformed
+// record or a failed egress is a typed, explainable error, never a crash.
+
+pub type ExportError =
+    MissingColumn(String)
+    MalformedRow(Int)
+    BadSalary(Int)
+    EmptyBatch
+    NoEndpoint
+    Io(String)
+    Egress(String)
+
+pub fun export_error_message(e: ExportError) -> String
+    return match e
+        MissingColumn(name) -> "input is missing required column '${name}'"
+        MalformedRow(idx)   -> "record ${idx} has fewer fields than the header"
+        BadSalary(idx)      -> "record ${idx} has a non-numeric gross salary"
+        EmptyBatch          -> "the batch has a header but no data records"
+        NoEndpoint          -> "no approved bureau endpoint configured (config/bureau_host.txt is empty)"
+        Io(msg)             -> "I/O error: ${msg}"
+        Egress(msg)         -> "egress to the approved bureau failed: ${msg}"

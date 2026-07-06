@@ -1,0 +1,36 @@
+// config.capa
+//
+// Read the approved bureau host from operator configuration. The host is
+// NOT a literal in the source: it is read at run time from
+// config/bureau_host.txt through the read-only Fs. That is deliberate and
+// load-bearing for layer 2 of the guarantee.
+//
+// Because the egress URL is derived from this file (a dynamic value, not
+// a compile-time constant), the WASI backend cannot materialise a host
+// ceiling by constant propagation and fails closed: it REFUSES to build a
+// component that reaches an operator-chosen host UNLESS the operator also
+// declares that host with ``--allow-host <host>``. So the operator states
+// the approved endpoint in TWO independent places that must agree: the
+// config file (what the connector contacts) and the ``--allow-host`` grant
+// (what the WASI component is authorised to reach). Either alone is inert.
+//
+// This module reads config only; it never writes and holds no Net. The
+// read path is an inline literal so the Fs authority stays statically
+// fixed to config/.
+
+import domain
+
+// The single approved-endpoint config file, named once.
+pub const HOST_CONFIG_PATH: String = "config/bureau_host.txt"
+
+// Read + validate the approved bureau host. An empty or whitespace-only
+// file is a typed NoEndpoint error (the connector will not fall back to
+// a default host: no endpoint means no export).
+pub fun read_approved_host(fs_config: Fs) -> Result<String, ExportError>
+    let raw = match fs_config.read("config/bureau_host.txt")
+        Ok(s)  -> s
+        Err(e) -> return Err(Io("${e}"))
+    let host = raw.trim()
+    if host.is_empty()
+        return Err(NoEndpoint)
+    return Ok(host)

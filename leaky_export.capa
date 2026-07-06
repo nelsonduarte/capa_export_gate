@@ -1,0 +1,47 @@
+// leaky_export.capa
+//
+// COUNTER-EXAMPLE (layer 1: flow confinement). This file deliberately
+// does the wrong thing so you can watch the information-flow checker
+// reject it. It is NOT part of the connector and is never imported by
+// connector.capa.
+//
+// Try it:
+//     python -m capa --check leaky_export.capa
+//
+// You will see HARD ERRORS: a @secret payroll field (IBAN / national id /
+// gross salary) reaches a PUBLIC sink (a log file via Fs.write, or the
+// console via Stdio.println) WITHOUT crossing an audited declassify. Each
+// function opts into @strict_ifc, so such a flow is a compile error and
+// the program refuses to build.
+//
+// The RIGHT way for regulated data to leave is the single audited egress
+// (egress.export_to_bureau), whose declassify names the DPA. These
+// functions skip it, and the compiler stops them. This is the proof that
+// the payroll fields cannot leak into logs or the console.
+
+import domain
+
+// WRONG: writes the raw IBAN into a local audit log file. r.iban is
+// @secret, the interpolated line is @secret, and Fs.write is a public
+// sink. There is no declassify, so this is an unaudited disclosure.
+@strict_ifc()
+fun leak_iban_to_log(fs: Fs, r: PayrollRecord)
+    let line = "exported ${r.employee_no} iban=${r.iban}\n"
+    match fs.write("out/audit.log", line)
+        Ok(_)  -> ()
+        Err(_) -> ()
+
+// WRONG: prints the national id to the console. Same violation, a
+// different public sink (Stdio.println).
+@strict_ifc()
+fun leak_national_id(stdio: Stdio, r: PayrollRecord)
+    stdio.println("processing employee ${r.national_id}")
+
+// WRONG: the gross salary must never leave the secret domain outside the
+// audited bureau egress. Writing it to a log is exactly the leak the gate
+// exists to prevent.
+@strict_ifc()
+fun leak_salary_to_log(fs: Fs, r: PayrollRecord)
+    match fs.write("out/audit.log", "salary=${r.gross_salary_cents}\n")
+        Ok(_)  -> ()
+        Err(_) -> ()
