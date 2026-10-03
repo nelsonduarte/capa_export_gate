@@ -2,14 +2,16 @@
 
 A connector that exports **regulated payroll records** from an internal
 system to an **approved external processing bureau** (a SaaS), and
-**proves, by construction, that the regulated data leaves the program at
-exactly one audited point and that point can reach exactly one approved
-host**. The proof is not a policy document or a code-review sign-off. It
-is the output of a compiler: the [Capa](https://github.com/nelsonduarte)
-information-flow analysis rejects any path from a regulated field to an
-unaudited sink, its capability SBOM enumerates the program's entire
-authority surface, and its WASI host gate refuses to build a component
-that can reach any host the operator did not approve.
+**checks that the regulated data leaves the program through one audited
+`declassify` and that its egress is narrowed to one approved host**. The
+evidence is not a policy document or a code-review sign-off. It comes
+from the [Capa](https://github.com/nelsonduarte) toolchain: the
+information-flow analysis, under `@strict_ifc` on the egress, refuses a
+flow it detects from a regulated field to an unaudited sink; its
+capability SBOM records the capabilities each function holds; the
+attenuated `Net` refuses a request to another host at runtime; and its
+WASI backend refuses to build a component with a dynamic URL unless the
+operator declares the host with `--allow-host`.
 
 ## The problem
 
@@ -24,28 +26,28 @@ host), and that it does so **only under the data processing agreement
 
 Today that assurance is built from process: data-flow diagrams, DPIAs,
 code reviews, egress-filtering appliances, DLP that pattern-matches after
-the fact. None of it is a *proof*. A single refactor can tee the payload
-into a debug log or point the uploader at an attacker's host, and nothing
-in the build fails.
+the fact. A single refactor can tee the payload into a debug log or point
+the uploader at an attacker's host, and nothing in the build notices.
 
-Export Gate shows a different model. "The regulated data leaves only
-through the audited bureau egress, and that egress reaches only the
-approved host" is a **compile-time and gate-time invariant**. If a
-developer writes the leak, or the operator forgets to approve the host,
-the build stops.
+Export Gate shows a different model. "The regulated data leaves through
+the audited bureau egress, and that egress is narrowed to the approved
+host" is **checked at compile time, at build time and at runtime**: a
+flow the analysis detects in the `@strict_ifc` egress stops the build, a
+`--wasi` build without the operator's `--allow-host` is refused, and the
+attenuated `Net` refuses another host.
 
-## The guarantee, in two independent structural layers
+## The checks, in two independent layers
 
-The headline decomposes into two layers that compose, each enforced by a
-different part of the compiler.
+The headline decomposes into two layers, each checked by a different part
+of the toolchain.
 
 ### Layer 1 - flow confinement (information-flow control, `@secret`)
 
 The four regulated fields are `@secret`. The single egress function opts
-into `@strict_ifc`, so **any `@secret` value that reaches a sink without
-an audited `declassify` is a hard compile error**. The payload is
-`@secret` (it embeds the regulated fields), so it can reach `Net.post`
-only through the one `declassify`, whose reason names the DPA:
+into `@strict_ifc`, so **a secret-to-sink flow the analysis detects
+without an audited `declassify` is a hard compile error**. The payload is
+`@secret` (it embeds the regulated fields), and it reaches `Net.post`
+through the one `declassify`, whose reason names the DPA:
 
 ```capa
 @strict_ifc()
@@ -98,8 +100,8 @@ capa: --wasm: Net in WASI mode requires every URL passed to get/post to be a str
   URL ... Run with --allow-host <host> to grant the component network authority to reach
   that host ...                                                     # exit code 1
 
-# With the operator-declared grant: it compiles, and that host is the ONLY
-# host the component can reach.
+# With the operator-declared grant: it compiles, with that host recorded
+# as the operator's grant.
 $ python -m capa --wasm --component --wasi --allow-host bureau.example.com connector.capa
 capa: --wasm: wrote component (43339 bytes) to ...
 ```
@@ -126,15 +128,16 @@ capa: WARNING: --allow-host 169.254.169.254 grants a link-local address; this is
 
 ### The two layers compose
 
-Layer 1 proves the secret leaves at **one** audited point. Layer 2 proves
-that point reaches **one** approved host. Neither alone is the guarantee;
-together they are: *the regulated payroll data goes to the approved
-bureau, under the named DPA, and nowhere else.*
+Layer 1 checks that the secret leaves through **one** audited point.
+Layer 2 narrows that point to **one** approved host. Neither alone is the
+headline; together they are the evidence for it: *the regulated payroll
+data is sent to the approved bureau, under the named DPA*. Neither layer
+is a proof that it reaches nowhere else.
 
-## Capability discipline: what the connector provably cannot do
+## Capability discipline: what the connector holds
 
-`main` acquires exactly three capabilities and nothing else. The compiler
-proves it and the SBOM records it:
+`main` acquires three capabilities. The compiler checks it and the SBOM
+records it:
 
 ```
 $ python -m capa --manifest connector.capa \
@@ -149,7 +152,7 @@ $ python -m capa --manifest connector.capa \
 With no `Proc` anywhere in the surface, "this connector cannot shell out
 to `curl` to exfiltrate the payload" is a checked fact.
 `forbidden_cap_export.capa` is the counter-example: it tries exactly that,
-and because nothing can hand it a `Proc` it does not compile.
+with no `Proc` in scope, and the compiler refuses it.
 
 ```
 $ python -m capa --check forbidden_cap_export.capa
@@ -169,7 +172,7 @@ One site, not zero (the payload must cross to reach the bureau), not many.
 ## The operator-declared grant in the SBOM
 
 `--allow-host` is recorded as **operator-declared** (Level 2) authority,
-kept honestly distinct from the compiler-derived, program-proven surface:
+kept distinct from the compiler-derived capability surface:
 
 ```
 $ python -m capa --manifest --allow-host bureau.example.com connector.capa \
@@ -184,7 +187,7 @@ $ python -m capa --manifest --allow-host bureau.example.com connector.capa \
 ```
 
 An SBOM consumer therefore sees three things it can act on: the derived
-surface (`{Net, Fs, Stdio}`), the provably excluded capabilities, and the
+surface (`{Net, Fs, Stdio}`), the compiler's derived exclusion set, and the
 one host the operator approved, labelled as their decision, not the
 compiler's.
 
@@ -193,8 +196,8 @@ compiler's.
 | Path | Role |
 | --- | --- |
 | `domain.capa` | the typed data model; the `@secret` annotations that are the policy |
-| `ingest.capa` | inline CSV parse + validation into `PayrollRecord`s (pure) |
-| `payload.capa` | build the `@secret` export payload from the records (pure) |
+| `ingest.capa` | inline CSV parse + validation into `PayrollRecord`s (no capability) |
+| `payload.capa` | build the `@secret` export payload from the records (no capability) |
 | `config.capa` | read the operator-configured approved host (Fs read-only) |
 | `egress.capa` | the single audited `declassify` + `Net`-restricted egress (`@strict_ifc`) |
 | `connector.capa` | the orchestrator: read (Fs ro) -> parse -> payload -> egress (Net) |
@@ -204,7 +207,7 @@ compiler's.
 | `data/payroll.csv` | sample batch (8 records, entirely fictitious) |
 | `config/bureau_host.txt` | the operator-configured approved bureau host |
 | `sbom/` | sample generated manifest + SBOMs + provenance |
-| `generate.sh` | regenerate the SBOM family, byte-reproducibly |
+| `generate.sh` | regenerate the SBOM family, with timestamps pinned |
 | `gate.sh` | the self-contained validation gate (all of the above, checked) |
 
 ## Run it
@@ -213,7 +216,7 @@ All commands use the local Capa compiler; substitute `python -m capa` for
 `capa` if the installed `capa` is not the build you intend.
 
 ```sh
-# Type-check + information-flow check (clean: no leaks)
+# Type-check + information-flow check (clean: no finding)
 capa --check connector.capa
 
 # Run the connector against the committed fixture.
@@ -228,7 +231,7 @@ capa --check forbidden_cap_export.capa    # undefined name 'proc', exit 1
 capa --wasm --component --wasi connector.capa                               # rejected
 capa --wasm --component --wasi --allow-host bureau.example.com connector.capa  # compiles
 
-# Regenerate the SBOM family (byte-reproducible)
+# Regenerate the SBOM family (timestamps pinned)
 ./generate.sh
 
 # The full self-contained gate
@@ -237,15 +240,16 @@ capa --wasm --component --wasi --allow-host bureau.example.com connector.capa  #
 
 ### The network call is an offline fixture
 
-The guarantees are **compile-time** (information-flow) and **gate-time**
-(host confinement); no live bureau is required to demonstrate them. The
+The checks are **compile-time** (information-flow), **build-time** (the
+WASI host gate) and **runtime** (the attenuated `Net`); no live bureau is
+required to demonstrate them. The
 committed `config/bureau_host.txt` names `bureau.example.com` (RFC 2606
 documentation domain), so `capa --run connector.capa` builds the payload,
 crosses the single audited `declassify`, attempts the POST, and reports
 the expected offline outcome. In production the operator points the config
 at the real approved host and grants it with `--allow-host`. The DNS/
 connect failure in the fixture is not a leak and not a host breach: the
-proofs live in the compiler, not in a running server.
+checks live in the toolchain, not in a running server.
 
 ### Same source, both backends
 
@@ -258,12 +262,12 @@ capa --wasm --run connector.capa            # identical output
 
 ## Dependencies
 
-None fetched at build time: the CSV parsing is inline and pure, so the
+None fetched at build time: the CSV parsing is inline and holds no
+capability, so the
 demo is fully self-contained and `gate.sh` runs from nothing but the
 committed tree. A verified `capa_csv` git dependency, as in
 [capa_dataguard](../capa_dataguard), is the drop-in alternative; it is
-pure and capability-free and would not widen the `{Net, Fs, Stdio}`
-surface.
+capability-free and would not widen the `{Net, Fs, Stdio}` surface.
 
 ## Licence
 
