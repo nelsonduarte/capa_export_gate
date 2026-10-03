@@ -2,28 +2,28 @@
 //
 // THE audited egress. This module is the single point where regulated
 // payroll data is allowed to leave the program, and it is where the two
-// structural layers of the guarantee compose.
+// structural layers of the check compose.
 //
 // LAYER 1 - FLOW CONFINEMENT (information-flow control, @secret).
-//   ``export_to_bureau`` opts into @strict_ifc, so any @secret value that
-//   reaches a sink (here Net.post's URL and body arguments) WITHOUT an
-//   audited declassify is a HARD COMPILE ERROR, not a warning. The payroll
-//   payload is @secret (it interpolates name / national_id / iban /
-//   gross_salary), so it can only reach Net.post through the ONE
-//   ``declassify`` below, whose reason names the DPA with the bureau.
-//   There is no second egress and no bypass; the compiler proves it.
+//   ``export_to_bureau`` opts into @strict_ifc, so a flow the analysis
+//   detects from a @secret value to a sink (here Net.post's URL and body
+//   arguments) WITHOUT an audited declassify is a HARD COMPILE ERROR, not
+//   a warning. The payroll payload is @secret (it interpolates name /
+//   national_id / iban / gross_salary), and it reaches Net.post through
+//   the ONE ``declassify`` below, whose reason names the DPA with the
+//   bureau. The manifest records that declassify site.
 //
 // LAYER 2 - HOST CONFINEMENT (Net attenuation + WASI grant).
 //   The function holds a Net that it immediately narrows with
 //   ``restrict_to(approved_host)``. At run time (the default backend) that
 //   attenuation refuses any host other than the approved one before a
 //   single byte hits the socket. Under ``--wasi`` the approved host is
-//   operator-declared (``--allow-host``) and is the ONLY host the
-//   component can reach: 169.254.169.254 and every other endpoint are
-//   denied by construction. offhost_export.capa demonstrates the denial.
+//   operator-declared (``--allow-host``) and is the one host the
+//   component is granted. offhost_export.capa demonstrates a request to
+//   169.254.169.254 being denied.
 //
-// Together: the secret leaves at exactly ONE audited point (layer 1), and
-// that point can reach exactly ONE approved host (layer 2).
+// Together: the secret is declassified at ONE audited point (layer 1), and
+// a request from that point to another host is refused (layer 2).
 
 import domain
 import payload

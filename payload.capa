@@ -8,9 +8,9 @@
 //
 // Every string built here that interpolates a @secret field is itself
 // @secret: the label flows through interpolation. So the whole payload
-// string carries the @secret label. That is the point. The ONLY way this
-// value can leave the program is through the single audited ``declassify``
-// in egress.capa, and the compiler proves there is no other path.
+// string carries the @secret label. That is the point. The sanctioned way
+// for this value to leave the program is the single audited ``declassify``
+// in egress.capa, and the compiler reports a flow it detects elsewhere.
 //
 // This module holds no capabilities and performs no I/O. It is pure
 // string assembly over already-parsed records.

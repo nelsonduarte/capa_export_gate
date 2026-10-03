@@ -15,15 +15,15 @@
 // CAPABILITY DISCIPLINE. main acquires exactly three capabilities: Net,
 // Fs and Stdio. It immediately splits the Fs into two read-only-by-use
 // views (config/ and data/) and hands Net to the egress, which narrows it
-// to the single approved host. main never acquires Proc, Db, Env, Clock,
-// Random or Unsafe. The capability SBOM (capa --manifest / --cyclonedx)
-// proves it, so "this connector cannot spawn a subprocess, read the
-// environment, or reach a database" is a machine-checked fact.
+// to the single approved host. main does not declare Proc, Db, Env,
+// Clock, Random or Unsafe. Its manifest entry (capa --manifest) lists
+// them among the excluded capabilities, and the compiler refuses a call
+// on one of them in a function that does not have it in scope.
 //
 // FLOW DISCIPLINE. The four regulated fields are @secret. The compiler
-// proves none of them reaches the console, a file, or a second network
-// host without crossing the single audited declassify in egress.capa.
-// leaky_export.capa shows the compiler rejecting a deliberate breach.
+// reports a flow it detects from them to a sink that does not cross the
+// audited declassify in egress.capa: a hard error in the @strict_ifc
+// egress, a warning elsewhere. leaky_export.capa shows a strict rejection.
 //
 // The config and batch paths are inline literals at their Fs sinks, so
 // the filesystem authority is fixed at compile time (constant
@@ -79,7 +79,7 @@ pub fun main(net: Net, fs: Fs, stdio: Stdio)
         Err(Egress(msg)) ->
             // Offline fixture: no live bureau is required. The DNS/connect
             // failure here is expected and does NOT indicate a leak or a
-            // host-confinement breach; the guarantees are compile-time
+            // host-confinement breach; the checks are compile-time
             // (information-flow) and gate-time (host confinement).
             stdio.println("export attempted to the approved host; offline fixture")
             stdio.println("  (${msg})")

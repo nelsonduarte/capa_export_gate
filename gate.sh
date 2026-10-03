@@ -1,7 +1,7 @@
 #!/bin/sh
 # Self-contained validation gate for capa_export_gate.
 #
-# Proves, from nothing but the committed tree, that:
+# Checks, from nothing but the committed tree, that:
 #   * the connector type-checks and runs (offline fixture),
 #   * the Python and Wasm backends agree byte-for-byte,
 #   * the two-layer WASI host gate rejects without --allow-host and
@@ -10,7 +10,7 @@
 #   * the SBOM records the {Net, Fs, Stdio} surface, the provably
 #     excluded capabilities, the single declassify site, and the
 #     operator-declared approved-host grant,
-#   * the committed SBOM family is byte-reproducible.
+#   * a fresh build of the SBOM family matches the committed one (step 6).
 #
 # Run `capa` == the compiler build you intend (e.g. `python -m capa`).
 # Exits non-zero on the first failure.

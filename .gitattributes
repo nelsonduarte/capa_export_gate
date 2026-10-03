@@ -1,11 +1,11 @@
 # Force LF in the working tree on every platform.
 #
 # capa_export_gate ships a committed SBOM family under sbom/. The compiler
-# emits the SBOMs with LF on every OS, so the only way a regenerated tree
-# could differ from what ships here is a checkout that rewrote committed LF
-# to CRLF (core.autocrlf). Every tracked file is text (.capa, .json, .txt,
-# .csv, .md, .toml, .sh, LICENSE, SOURCE_DATE_EPOCH); a blanket eol=lf is
-# safe and keeps the reproducibility diff empty.
+# emits the SBOMs with LF on every OS, while a checkout with core.autocrlf
+# rewrites committed LF to CRLF, so a regenerated file would differ from
+# the checked-out one in its line endings alone. Every tracked file is text
+# (.capa, .json, .txt, .csv, .md, .toml, .sh, LICENSE, SOURCE_DATE_EPOCH);
+# a blanket eol=lf is safe.
 * text=auto eol=lf
 
 # Reproducibility inputs, pinned LF for defence in depth.

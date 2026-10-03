@@ -11,9 +11,9 @@
 //     financial identifiers a payroll export inevitably carries): the
 //     employee's full name, national id (NIF), IBAN and gross salary.
 //     These are marked @secret. From that single annotation the compiler
-//     propagates a confidentiality label through every value derived from
-//     them and proves none of them can reach ANY sink (the console, a log
-//     file, the network) without crossing an audited ``declassify``.
+//     propagates a confidentiality label through the values derived from
+//     them that it tracks, and reports a flow it detects to a sink (the
+//     console, a log file, the network) without an audited ``declassify``.
 //
 //   * NON-PERSONAL, OPERATIONAL fields: the batch's pay period and the
 //     opaque employee number the internal system already assigns. These

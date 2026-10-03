@@ -16,8 +16,8 @@
 //
 // The RIGHT way for regulated data to leave is the single audited egress
 // (egress.export_to_bureau), whose declassify names the DPA. These
-// functions skip it, and the compiler stops them. This is the proof that
-// the payroll fields cannot leak into logs or the console.
+// functions skip it, and the compiler stops them: each flow below is
+// detected and refused under @strict_ifc.
 
 import domain
 

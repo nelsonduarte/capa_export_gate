@@ -8,10 +8,10 @@
 // Try it:
 //     python -m capa --check forbidden_cap_export.capa
 //
-// The connector's capability surface is exactly {Net, Fs, Stdio}: it never
-// holds Proc. A function cannot conjure authority it was not handed, and
-// nothing in this program has a Proc to hand down. So ``proc`` is an
-// undefined name and the program does not compile.
+// The connector's capability surface is {Net, Fs, Stdio}; no function
+// declares Proc. No constructor, literal, global or import produces a
+// built-in capability, so ``proc`` is an undefined name here and the
+// program does not compile.
 //
 // This is the third line of defence: even if flow confinement and host
 // confinement were both somehow circumvented, the surface itself makes a
